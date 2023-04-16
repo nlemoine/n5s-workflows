@@ -9,6 +9,9 @@ on:
         required: false
         type: string
         default: '8.1'
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
 
 jobs:
   # Deploy
