@@ -1,0 +1,49 @@
+name: Build assets
+
+on:
+  workflow_call:
+    inputs:
+      # pass in environment through manual trigger, if not passed in, default to 'dev'
+      php-version:
+        required: false
+        type: string
+        default: '8.1'
+      node-version:
+        required: false
+        type: string
+        default: '16.x'
+      theme-path:
+        required: true
+        type: string
+
+jobs:
+
+  # Build
+  build:
+    name: Build & commit/push changes
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - uses: bahmutov/npm-install@v1
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+
+      - uses: ramsey/composer-install@v2
+        with:
+          composer-options: "--no-scripts --no-dev"
+
+      - name: Build assets
+        run: yarn build
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 🤖 Build assets
+          file_pattern: '${{ inputs.theme-path }}/**/*'
