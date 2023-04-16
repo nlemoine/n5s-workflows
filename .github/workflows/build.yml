@@ -3,7 +3,6 @@ name: Build assets
 on:
   workflow_call:
     inputs:
-      # pass in environment through manual trigger, if not passed in, default to 'dev'
       php-version:
         required: false
         type: string

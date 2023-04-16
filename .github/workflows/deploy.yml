@@ -1,0 +1,40 @@
+name: Deploy
+
+concurrency: production_environment
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        required: false
+        type: string
+        default: '8.1'
+
+jobs:
+  # Deploy
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Disable host key check
+        run: echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+
+      - uses: ramsey/composer-install@v2
+        with:
+          composer-options: "--no-scripts --no-dev"
+          working-directory: tools/deployer
+
+      - run: echo "CURRENT_BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
+      - name: Deploy branch ${{ env.CURRENT_BRANCH }} to ${{ env.CURRENT_BRANCH == 'main' && 'production' || 'staging' }}
+        run: ./tools/deployer/vendor/bin/dep deploy -vv --branch=${{ env.CURRENT_BRANCH }} stage=${{ env.CURRENT_BRANCH == 'main' && 'production' || 'staging' }}
