@@ -1,7 +1,5 @@
 name: Deploy
 
-concurrency: production_environment
-
 on:
   workflow_call:
     inputs:
