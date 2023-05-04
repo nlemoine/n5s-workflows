@@ -7,6 +7,14 @@ on:
         required: false
         type: string
         default: '8.1'
+      name:
+        required: false
+        type: string
+        default: 'staging'
+      url:
+        required: false
+        type: string
+        default: 'https://staging'
     secrets:
       SSH_PRIVATE_KEY:
         required: true
@@ -16,6 +24,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.name }}
+      url: ${{ inputs.url }}
     steps:
       - uses: actions/checkout@v3
 
