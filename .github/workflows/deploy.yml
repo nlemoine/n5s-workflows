@@ -25,7 +25,7 @@ jobs:
     name: Deploying to ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.name }}
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
       url: ${{ inputs.url }}
     steps:
       - uses: actions/checkout@v3
