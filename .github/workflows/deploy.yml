@@ -22,7 +22,7 @@ on:
 jobs:
   # Deploy
   deploy:
-    name: Deploy
+    name: Deploying to ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.name }}
