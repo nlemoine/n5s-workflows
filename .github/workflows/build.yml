@@ -14,9 +14,10 @@ on:
       theme-path:
         required: true
         type: string
-      build-args:
+      build-cmd:
         required: false
         type: string
+        default: 'yarn build'
 
 jobs:
 
@@ -45,7 +46,7 @@ jobs:
           composer-options: "--no-scripts --no-dev"
 
       - name: Build assets
-        run: yarn build ${{ inputs.build-args }}
+        run: ${{ inputs.cmd }}
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
