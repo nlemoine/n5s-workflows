@@ -47,7 +47,7 @@ jobs:
           composer-options: "--no-scripts --no-dev"
 
       - name: Build assets
-        run: ${{ inputs.cmd }}
+        run: ${{ inputs.build-cmd }}
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
