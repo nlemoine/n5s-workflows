@@ -11,9 +11,10 @@ on:
         required: false
         type: string
         default: '16.x'
-      theme-path:
-        required: true
+      file-pattern:
+        required: false
         type: string
+        default: '.'
       build-cmd:
         required: false
         type: string
@@ -51,4 +52,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 🤖 Build assets
-          file_pattern: '${{ inputs.theme-path }}/**/*'
+          file_pattern: ${{ inputs.file-pattern }}
