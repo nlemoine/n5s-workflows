@@ -35,6 +35,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node-version }}
+          
+      - run: sudo npm install -g node-gyp
 
       - uses: bahmutov/npm-install@v1
 
