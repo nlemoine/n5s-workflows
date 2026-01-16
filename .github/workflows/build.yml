@@ -35,8 +35,6 @@ jobs:
           node-version: ${{ inputs.node-version }}
 
       - uses: bahmutov/npm-install@v1
-        with:
-          node-version: ${{ inputs.node-version }}
 
       - uses: shivammathur/setup-php@v2
         with:
